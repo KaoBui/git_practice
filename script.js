@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger);
-    let bodyScrollBar = Scrollbar.init(document.body, {
+    let bodyScrollBar = Scrollbar.init(document.querySelector('#scrollable-content'), {
         damping: 0.1,
         delegateTo: document,
     });
