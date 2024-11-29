@@ -1,6 +1,7 @@
 /* Global Styling */
 :root {
-  --main-color: #fffaed,
+  --main-color: #fffaed;
+  --blue: #1e90ff;
 }
 
 * {
@@ -90,8 +91,11 @@ h3 {
   position: fixed;
   display: flex;
   justify-content: space-between;
-  width: 100%;
   background-color: var(--main-color);
+  z-index: 100;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 
 .nav a {
@@ -235,14 +239,26 @@ h3 {
   flex: 1;
   background-color: white;
   padding: 16px;
+  height: 100%;
 }
 
 .color-background {
-  background-color: black;
   color: white;
   padding: 20px;
   min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.color-background.black {
+  background-color: black;
+}
+
+.color-background.green {
+  background-color: green;
+}
+
+#vertical {
+  height: 200vh;
 }
