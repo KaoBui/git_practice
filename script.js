@@ -1,99 +1,117 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.registerPlugin(ScrollTrigger);
-    let bodyScrollBar = Scrollbar.init(document.querySelector('#scrollable-content'), {
-        damping: 0.1,
-        delegateTo: document,
-    });
-    ScrollTrigger.scrollerProxy(".scroller", {
-        scrollTop(value) {
-            if (arguments.length) {
-                bodyScrollBar.scrollTop = value;
-            }
-            return bodyScrollBar.scrollTop;
-        },
-    });
-    bodyScrollBar.addListener(ScrollTrigger.update);
-
-
-
-
-
-
-
-    gsap.set(".panel", { zIndex: (i, target, targets) => targets.length - i });
-
-    var images = gsap.utils.toArray('.panel:not(.purple)');
-
-    images.forEach((image, i) => {
-
-        var tl = gsap.timeline({
-
-            scrollTrigger: {
-                trigger: "section.black",
-                scroller: ".scroller",
-                start: () => "top -" + (window.innerHeight * (i + 0.5)),
-                end: () => "+=" + window.innerHeight,
-                scrub: true,
-                toggleActions: "play none reverse none",
-                invalidateOnRefresh: true,
-            }
-
-        })
-
-        tl
-            .to(image, { height: 0 })
-            ;
-
-    });
-
-
-
-
-
-
-
-    gsap.set(".panel-text", { zIndex: (i, target, targets) => targets.length - i });
-
-    var texts = gsap.utils.toArray('.panel-text');
-
-    texts.forEach((text, i) => {
-
-        var tl = gsap.timeline({
-
-            scrollTrigger: {
-                trigger: "section.black",
-                scroller: ".scroller",
-                start: () => "top -" + (window.innerHeight * i),
-                end: () => "+=" + window.innerHeight,
-                scrub: true,
-                toggleActions: "play none reverse none",
-                invalidateOnRefresh: true,
-            }
-
-        })
-
-        tl
-            .to(text, { duration: 0.33, opacity: 1, y: "50%" })
-            .to(text, { duration: 0.33, opacity: 0, y: "0%" }, 0.66)
-            ;
-
-    });
-
-
-
-
-
+function togglemenu() {
+    var x = document.getElementById("nav");
+    if (x.className === "nav") {
+      x.className += " nav--open";
+    } else {
+      x.className = "nav";
+    }
+    var element = document.getElementById("menu-toggle");
+    element.classList.toggle("menu-toggle--open");
+  }
+  
+  window.onload = function () {
+    setTimeout(function () {
+      document.getElementById("fadein").remove();
+    }, 1000);
+  };
+  
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis = new Lenis({
+    duration: 1.5, // Adjust the duration for the smoothness of the scroll
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Default easing function
+    smooth: true,
+  });
+  
+  // Function to synchronize Lenis with ScrollTrigger
+  function raf(time) {
+    lenis.raf(time); // Update Lenis scroll position
+    ScrollTrigger.update(); // Refresh ScrollTrigger
+    requestAnimationFrame(raf); // Continue the animation frame loop
+  }
+  
+  requestAnimationFrame(raf); // Start the loop
+  
+  
+  let tl = gsap.timeline();
+  
+  tl.from("h1 span>span", {
+    duration: 1,
+    y: 150,
+    autoAlpha: 0,
+    ease: Power3.out,
+    stagger: 0.5,
+    delay: 1
+  }).from(".accordeon-card", {
+    y: 400,
+    duration: 1.5,
+    opacity: 0,
+    ease: Power3.out,
+    stagger: 0.2
+  }, "-=1");
+  
+  
+  gsap.from("#bloc1 h3", {
+    scrollTrigger: {
+      trigger: "#bloc1 h3",
+      toggleActions: "play none none none",
+    },
+    y: 100,
+    ease: Power2.out,
+    stagger: 0.2,
+    duration: 0.5,
+    opacity: 0,
+    delay: 0.5
+  })
+  
+  gsap.to("nav", {
+    scrollTrigger: {
+      trigger: "nav",
+      start: "bot top",
+      // toggleActions: "restart none reverse none",
+      scrub: true,
+    },
+    left: 40,
+    right: 40,
+    top: 40,
+    ease: Power3.out,
+  })
+  
+  gsap.utils.toArray(".color-background").forEach((colorBg, i) => {
     ScrollTrigger.create({
-
-        trigger: "section.black",
-        scroller: ".scroller",
-        scrub: true,
-        markers: true,
-        pin: true,
-        start: () => "top top",
-        end: () => "+=" + ((images.length + 1) * window.innerHeight),
-        invalidateOnRefresh: true,
-
+      trigger: colorBg,
+      start: "top top",
+      pin: true,
+      scrub: true,
     });
-});
-
+  })
+  
+  gsap.utils.toArray(".slide-up").forEach((text, i) => {
+    gsap.to(text, {
+      scrollTrigger: {
+        trigger: text,
+        start: "bottom 40%",
+        scrub: 1,
+      },
+      y: -80,
+    });
+  });
+  
+  
+  
+  const section_1 = document.getElementById("vertical");
+  const col_left = document.querySelector(".col_left");
+  const timeln = gsap.timeline({ paused: true });
+  
+  timeln.fromTo(col_left, {y: 0}, {y: '170vh', duration: 1, ease: 'none'}, 0);
+  
+  const scroll_1 = ScrollTrigger.create({
+      animation: timeln,
+      trigger: section_1,
+      start: 'top top',
+      end: 'bottom center',
+      scrub: true
+  });
+  
+  
+  
+  
