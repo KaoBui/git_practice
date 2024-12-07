@@ -262,3 +262,10 @@ h3 {
 #vertical {
   height: 200vh;
 }
+
+.col-right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
